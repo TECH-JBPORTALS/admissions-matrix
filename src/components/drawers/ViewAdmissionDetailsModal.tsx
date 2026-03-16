@@ -1415,7 +1415,7 @@ export default function ViewAdmissionDetailsModal({
                     <DialogActionTrigger asChild>
                       <Button variant="outline">Cancel</Button>
                     </DialogActionTrigger>
-                    <Button loading={isApproving} onClick={approve}>
+                    <Button loading={isApproving} onClick={() => approve()}>
                       Approve
                     </Button>
                   </DialogFooter>

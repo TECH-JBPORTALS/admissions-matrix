@@ -604,7 +604,7 @@ export const updateToApprove = createAsyncThunk<
       const formData = new FormData();
       const state = getState() as RootState;
       const selected_data = state.admissions.selectedMatrix
-        .data[0] as SelectedMatrix;
+        .data as SelectedMatrix;
       const name = payload.username;
       const acadyear = state.admissions.acadYear;
       formData.append("acadyear", acadyear);
@@ -842,7 +842,7 @@ const initialState: FeesIntialState = {
     pending: false,
   },
   selectedMatrix: {
-    data: [],
+    data: undefined,
     error: null,
     pending: false,
   },
