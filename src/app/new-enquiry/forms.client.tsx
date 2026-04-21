@@ -214,7 +214,7 @@ const studentDetailsSchema = z.object({
       message: "Invalid PAN number format",
     }),
 
-  email: z.string().email("Invalid email address"),
+  email: z.string().email("Invalid email address").optional(),
 
   studentPhone: z.string().regex(phoneRegex),
 
@@ -228,7 +228,7 @@ const studentDetailsSchema = z.object({
 export function StudentDetailsForm() {
   const defaultValues = useEnquiryStore((state) => state.studentDetails);
   const studentPhone = useEnquiryStore(
-    (state) => state.studentVerification.studentPhone
+    (state) => state.studentVerification.studentPhone,
   );
   const form = useForm<z.infer<typeof studentDetailsSchema>>({
     resolver: zodResolver(studentDetailsSchema),
@@ -243,7 +243,7 @@ export function StudentDetailsForm() {
       form.reset({
         studentPhone,
       });
-  }, [studentPhone, form.reset]);
+  }, [studentPhone, form.reset, form]);
 
   async function onSubmit(values: z.infer<typeof studentDetailsSchema>) {
     updateStore("studentDetails", values);
@@ -474,7 +474,7 @@ export function AcademicBackgroundForm() {
         ...defaultValues,
         course,
       },
-      { keepDirty: true }
+      { keepDirty: true },
     );
   }, [course, form.reset]);
 
@@ -673,17 +673,17 @@ export function CourseSelectionForm() {
 
   const dispatch = useAppDispatch();
   const collegeList = useAppSelector(
-    (state) => state.admissions.collegeList.data
+    (state) => state.admissions.collegeList.data,
   ) as { value: string; option: string }[];
   const collegeListPending = useAppSelector(
-    (state) => state.admissions.collegeList.pending
+    (state) => state.admissions.collegeList.pending,
   );
 
   const branchList = useAppSelector(
-    (state) => state.admissions.branchlist.data
+    (state) => state.admissions.branchlist.data,
   ) as { value: string; option: string }[];
   const branchListPending = useAppSelector(
-    (state) => state.admissions.collegeList.pending
+    (state) => state.admissions.collegeList.pending,
   );
 
   const steps = useStepsContext();
@@ -768,7 +768,7 @@ export function CourseSelectionForm() {
                       <HStack align="stretch">
                         {collegeListPending
                           ? Array.from({ length: 4 }).map((_, i) => (
-                              <Skeleton h={"14"} minW={"200px"} />
+                              <Skeleton key={i} h={"14"} minW={"200px"} />
                             ))
                           : collegeList.map((item) => (
                               <RadioCard.Item
@@ -816,7 +816,7 @@ export function CourseSelectionForm() {
                       <HStack flexShrink={"0"} flexWrap={"wrap"}>
                         {branchListPending
                           ? Array.from({ length: 4 }).map((_, i) => (
-                              <Skeleton h={"14"} minW={"200px"} />
+                              <Skeleton key={i} h={"14"} minW={"200px"} />
                             ))
                           : branchList.map((item) => (
                               <RadioCard.Item
@@ -1027,7 +1027,7 @@ const familyInfoSchema = z.object({
 export function FamilyInfoSchema() {
   const familyInfo = useEnquiryStore((state) => state.familyInfo);
   const studentVerification = useEnquiryStore(
-    (state) => state.studentVerification
+    (state) => state.studentVerification,
   );
   const form = useForm<z.infer<typeof familyInfoSchema>>({
     resolver: zodResolver(familyInfoSchema),
@@ -1161,7 +1161,9 @@ export function ReferalForm() {
 
       /** Student Details */
       fd.append("name", studentDetails.studentName);
-      fd.append("email", studentDetails.email);
+      if (studentDetails.email) {
+        fd.append("email", studentDetails.email);
+      }
       fd.append("gender", studentDetails.gender.at(0)!);
       fd.append("phone", studentDetails.studentPhone);
       fd.append("address", studentDetails.address);
@@ -1208,7 +1210,7 @@ export function ReferalForm() {
         {
           data: fd,
           method: "POST",
-        }
+        },
       );
 
       const link = document.createElement("a");
