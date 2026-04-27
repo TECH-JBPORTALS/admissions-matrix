@@ -214,7 +214,10 @@ const studentDetailsSchema = z.object({
       message: "Invalid PAN number format",
     }),
 
-  email: z.string().email("Invalid email address").optional(),
+  email: z.preprocess(
+    (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+    z.string().email("Invalid email address").optional(),
+  ),
 
   studentPhone: z.string().regex(phoneRegex),
 
