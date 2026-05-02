@@ -7,7 +7,15 @@ import { fetchUnApprovedAdmissions } from "@/store/admissions.slice";
 import React, { useEffect } from "react";
 import { columns } from "./columns";
 import { useSearchParams } from "next/navigation";
-import { Center, Spinner } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Heading,
+  HStack,
+  Link,
+  Spinner,
+} from "@chakra-ui/react";
+import { MdFileDownload } from "react-icons/md";
 
 export default function UnApproved() {
   const searchParams = useSearchParams();
@@ -17,15 +25,17 @@ export default function UnApproved() {
   const dispatch = useAppDispatch();
 
   const data = useAppSelector(
-    (state) => state.admissions.unapproved_matrix.data
+    (state) => state.admissions.unapproved_matrix.data,
   ) as [];
 
   const isLoading = useAppSelector(
-    (state) => state.admissions.unapproved_matrix.pending
+    (state) => state.admissions.unapproved_matrix.pending,
   );
 
+  const acadYear = useAppSelector((state) => state.admissions.acadYear);
+
   const Error = useAppSelector(
-    (state) => state.admissions.unapproved_matrix.error
+    (state) => state.admissions.unapproved_matrix.error,
   );
 
   useEffect(() => {
@@ -35,7 +45,7 @@ export default function UnApproved() {
         fetchUnApprovedAdmissions({
           college: college,
           branch: branch,
-        })
+        }),
       );
   }, [college, branch, dispatch]);
 
@@ -48,6 +58,18 @@ export default function UnApproved() {
 
   return (
     <React.Fragment>
+      <HStack height={"16"} justifyContent={"space-between"}>
+        <Heading size={"2xl"}>Unapproved</Heading>
+        <Button variant={"subtle"} colorPalette={"teal"} size={"xs"} asChild>
+          <Link
+            href={`${process.env.NEXT_PUBLIC_ADMISSIONS_URL}downloadunapproved.php?college=${college}&branch=${branch}&acadyear=${acadYear}`}
+            download
+          >
+            <MdFileDownload />
+            Download (.xls)
+          </Link>
+        </Button>
+      </HStack>
       <DataTable columns={columns} data={data} />
     </React.Fragment>
   );

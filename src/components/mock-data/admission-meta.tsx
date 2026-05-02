@@ -1,10 +1,5 @@
 import { IconButton, Tag } from "@chakra-ui/react";
-import {
-  AiOutlineCheckSquare,
-  AiOutlineDownload,
-  AiOutlineEye,
-} from "react-icons/ai";
-import ViewAdmissionDetailsModal from "../drawers/ViewAdmissionDetailsModal";
+import { AiOutlineDownload } from "react-icons/ai";
 import { useAppSelector } from "@/store";
 import Link from "next/link";
 
