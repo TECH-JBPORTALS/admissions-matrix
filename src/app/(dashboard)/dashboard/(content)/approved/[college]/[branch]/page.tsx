@@ -19,16 +19,13 @@ import { columns } from "./columns";
 import React from "react";
 import { useAppSelector } from "@/store";
 import { MdFileDownload } from "react-icons/md";
-import { AiFillFileExcel } from "react-icons/ai";
 import {
   MenuContent,
   MenuItem,
-  MenuItemText,
   MenuRoot,
   MenuTrigger,
 } from "@/components/ui/menu";
-import { ChevronDown } from "lucide-react";
-import { LuChevronDown, LuFileSpreadsheet } from "react-icons/lu";
+import { LuChevronDown } from "react-icons/lu";
 import { FaFileExcel, FaFilePdf } from "react-icons/fa";
 
 export default function Home() {
@@ -73,23 +70,23 @@ export default function Home() {
           </Breadcrumb.List>
         </Breadcrumb.Root>
         <MenuRoot>
-          <MenuTrigger asChild>
-            <ButtonGroup attached variant={"outline"} size={"xs"}>
-              <Button asChild>
-                <Link
-                  href={`${process.env.NEXT_PUBLIC_ADMISSIONS_URL}downloadclasspdf.php?college=${params.college}&branch=${params.branch}&acadyear=${acadYear}`}
-                  download
-                  target="_blank"
-                >
-                  <MdFileDownload />
-                  Download
-                </Link>
-              </Button>
+          <ButtonGroup attached variant={"outline"} size={"xs"}>
+            <Button asChild>
+              <Link
+                href={`${process.env.NEXT_PUBLIC_ADMISSIONS_URL}downloadclasspdf.php?college=${params.college}&branch=${params.branch}&acadyear=${acadYear}`}
+                download
+                target="_blank"
+              >
+                <MdFileDownload />
+                Download
+              </Link>
+            </Button>
+            <MenuTrigger asChild>
               <IconButton>
                 <LuChevronDown />
               </IconButton>
-            </ButtonGroup>
-          </MenuTrigger>
+            </MenuTrigger>
+          </ButtonGroup>
           <MenuContent>
             <MenuItem value="pdf" asChild>
               <Link
